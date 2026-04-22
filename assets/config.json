@@ -1,0 +1,6 @@
+{
+  "admin": ["Manage Teachers", "Manage Students", "Curriculum", "Certification"],
+  "teacher": ["Assign Surahs", "Track Progress", "Oral Tests"],
+  "student": ["Progress Tracking", "Attendance", "Upcoming Tests"],
+  "guardian": ["Child Progress", "Attendance Reports", "Performance"]
+}
