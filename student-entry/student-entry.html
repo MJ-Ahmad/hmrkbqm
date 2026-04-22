@@ -1,51 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Student Data Entry - Baitul Quran International Madrasha</title>
+  <title>শিক্ষার্থী তথ্য এন্ট্রি - বাইটুল কুরআন ইন্টারন্যাশনাল মাদ্রাসা</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="assets/style.css">
   <script src="scripts/submit.js" defer></script>
+  <style>
+    body { font-family: 'SolaimanLipi', Arial, sans-serif; background:#f4f6f9; margin:0; padding:10px; }
+    header { background:#004d40; color:rgb(148, 32, 32); padding:15px; text-align:center; }
+    header h1 { margin:0; font-size:20px; }
+    header p { margin:5px 0 0; font-size:14px; }
+    form { background:white; padding:15px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); max-width:600px; margin:auto; }
+    label { display:block; margin-top:10px; font-weight:bold; font-size:14px; }
+    input, select, textarea { width:100%; padding:8px; margin-top:5px; border:1px solid #ccc; border-radius:4px; font-size:14px; }
+    button { margin-top:20px; padding:12px; background:#00796b; color:white; border:none; border-radius:4px; cursor:pointer; width:100%; font-size:16px; }
+    button:hover { background:#004d40; }
+    #timestamp { margin-top:15px; font-size:14px; color:#555; text-align:center; }
+    @media (max-width:600px) {
+      form { padding:10px; }
+      header h1 { font-size:18px; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Student Data Entry Form</h1>
-  <p>Fill in the details of your students. Upload a photo and submit.</p>
+  <header>
+    <h1>বাইটুল কুরআন ইন্টারন্যাশনাল মাদ্রাসা</h1>
+    <p>স্টেডিয়াম রোড, নান্দিবাড়ি, মুকতাগাছা, ময়মনসিংহ</p>
+  </header>
 
   <form id="studentForm">
-    <label for="teacher">Teacher ID</label>
+    <label for="teacher">শিক্ষক আইডি (আবশ্যক)</label>
     <select id="teacher" required>
-      <option value="">Select Teacher</option>
-      <option value="T001 - Nurani Teacher">T001 - Nurani Teacher</option>
-      <option value="T002 - General Teacher">T002 - General Teacher</option>
-      <option value="T003 - Nazra Teacher">T003 - Nazra Teacher</option>
-      <option value="T004 - Hifz Teacher 1">T004 - Hifz Teacher 1</option>
-      <option value="T005 - Hifz Teacher 2">T005 - Hifz Teacher 2</option>
-      <option value="T006 - Khatmi Teacher">T006 - Khatmi Teacher</option>
-      <option value="T007 - Supervisor">T007 - Supervisor</option>
-      <option value="T008 - Head Teacher">T008 - Head Teacher</option>
+      <option value="">শিক্ষক নির্বাচন করুন</option>
+      <option value="T001 - নূরানি শিক্ষক">T001 - নূরানি শিক্ষক</option>
+      <option value="T002 - সাধারণ শিক্ষক">T002 - সাধারণ শিক্ষক</option>
+      <option value="T003 - নাজরা শিক্ষক">T003 - নাজরা শিক্ষক</option>
+      <option value="T004 - হিফজ শিক্ষক ১">T004 - হিফজ শিক্ষক ১</option>
+      <option value="T005 - হিফজ শিক্ষক ২">T005 - হিফজ শিক্ষক ২</option>
+      <option value="T006 - খতমি শিক্ষক">T006 - খতমি শিক্ষক</option>
+      <option value="T007 - সুপারভাইজার">T007 - সুপারভাইজার</option>
+      <option value="T008 - প্রধান শিক্ষক">T008 - প্রধান শিক্ষক</option>
     </select>
 
-    <label for="studentName">Student Name</label>
+    <label for="studentName">শিক্ষার্থীর নাম (আবশ্যক)</label>
     <input type="text" id="studentName" required>
 
-    <label for="address">Address</label>
-    <textarea id="address" required></textarea>
+    <label for="address">ঠিকানা</label>
+    <textarea id="address"></textarea>
 
-    <label for="age">Age</label>
-    <input type="number" id="age" required>
+    <label for="age">বয়স</label>
+    <input type="number" id="age">
 
-    <label for="progress">Progress (Para/Page Completed)</label>
-    <input type="text" id="progress" required>
-
-    <label for="residential">Residential Status</label>
+    <label for="residential">আবাসিক অবস্থা (আবশ্যক)</label>
     <select id="residential" required>
-      <option value="Residential">Residential</option>
-      <option value="Non-Residential">Non-Residential</option>
+      <option value="Residential">আবাসিক</option>
+      <option value="Non-Residential">অনাবাসিক</option>
     </select>
 
-    <label for="photo">Student Photo</label>
-    <input type="file" id="photo" accept="image/*" required>
+    <label for="startDate">হিফজ শুরুর তারিখ (আবশ্যক)</label>
+    <input type="date" id="startDate" required>
 
-    <button type="submit">Submit Data</button>
+    <label for="endDate">হিফজ শেষ করার তারিখ (ঐচ্ছিক)</label>
+    <input type="date" id="endDate">
+
+    <label for="completedParas">কত পাড়া মুখস্থ সম্পন্ন হয়েছে (আবশ্যক)</label>
+    <input type="text" id="completedParas" required>
+
+    <label for="memorizedParas">কোন কোন পাড়া মুখস্থ করা হয়েছে (আবশ্যক)</label>
+    <textarea id="memorizedParas" required></textarea>
+
+    <label for="perfectParas">মুখস্থকৃত পাড়ার মধ্যে কোনগুলো পুরোপুরি আয়ত্ত (আবশ্যক)</label>
+    <textarea id="perfectParas" required></textarea>
+
+    <label for="needParas">মুখস্থকৃত পাড়ার মধ্যে কোনগুলো আয়ত্ত করতে হবে (আবশ্যক)</label>
+    <textarea id="needParas" required></textarea>
+
+    <label for="currentPara">বর্তমানে কোন পাড়া মুখস্থ করছে (আবশ্যক)</label>
+    <input type="text" id="currentPara" required>
+
+    <label for="lastSabakDate">সর্বশেষ সবক কবে শুনিয়েছে (আবশ্যক)</label>
+    <input type="date" id="lastSabakDate" required>
+
+    <label for="lastPage">সর্বশেষ কত নাম্বার পৃষ্ঠা শুনানো হয়েছে (আবশ্যক)</label>
+    <input type="number" id="lastPage" required>
+
+    <label for="photo">শিক্ষার্থীর ছবি</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <button type="submit">তথ্য সাবমিট করুন</button>
     <p id="timestamp"></p>
   </form>
 </body>

@@ -5,7 +5,19 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(express.static(__dirname)); // serve student-entry.html and scripts
+
+// Serve static files (HTML, JS, CSS) from current folder
+app.use(express.static(__dirname));
+
+// Default route → student-entry.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'student-entry.html'));
+});
+
+// Dashboard route → submissions-dashboard.html
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'submissions-dashboard.html'));
+});
 
 const submissionsFile = path.join(__dirname, 'assets', 'submissions.json');
 

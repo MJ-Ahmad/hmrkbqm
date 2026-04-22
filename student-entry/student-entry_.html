@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Data Entry - Baitul Quran International Madrasha</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="scripts/submit.js" defer></script>
+</head>
+<body>
+  <h1>Student Data Entry Form</h1>
+  <p>Fill in the details of your students. Upload a photo and submit.</p>
+
+  <form id="studentForm">
+    <label for="teacher">Teacher ID</label>
+    <select id="teacher" required>
+      <option value="">Select Teacher</option>
+      <option value="T001 - Nurani Teacher">T001 - Nurani Teacher</option>
+      <option value="T002 - General Teacher">T002 - General Teacher</option>
+      <option value="T003 - Nazra Teacher">T003 - Nazra Teacher</option>
+      <option value="T004 - Hifz Teacher 1">T004 - Hifz Teacher 1</option>
+      <option value="T005 - Hifz Teacher 2">T005 - Hifz Teacher 2</option>
+      <option value="T006 - Khatmi Teacher">T006 - Khatmi Teacher</option>
+      <option value="T007 - Supervisor">T007 - Supervisor</option>
+      <option value="T008 - Head Teacher">T008 - Head Teacher</option>
+    </select>
+
+    <label for="studentName">Student Name</label>
+    <input type="text" id="studentName" required>
+
+    <label for="address">Address</label>
+    <textarea id="address" required></textarea>
+
+    <label for="age">Age</label>
+    <input type="number" id="age" required>
+
+    <label for="progress">Progress (Para/Page Completed)</label>
+    <input type="text" id="progress" required>
+
+    <label for="residential">Residential Status</label>
+    <select id="residential" required>
+      <option value="Residential">Residential</option>
+      <option value="Non-Residential">Non-Residential</option>
+    </select>
+
+    <label for="photo">Student Photo</label>
+    <input type="file" id="photo" accept="image/*" required>
+
+    <button type="submit">Submit Data</button>
+    <p id="timestamp"></p>
+  </form>
+</body>
+</html>
