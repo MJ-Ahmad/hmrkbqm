@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <title>Bitul Quran</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4f6f9; margin:0; padding:20px; }
+    h1 { text-align:center; color:#2c3e50; }
+    p { text-align:center; color:#2c3e50; }
+    .clock { text-align:center; font-size:18px; color:#2980b9; margin-bottom:20px; }
+
+    .student-info {
+      max-width:900px; margin:20px auto; background:white; padding:20px;
+      border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    }
+    .student-info h2 { color:#2c3e50; margin-bottom:10px; }
+    .student-details { display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; }
+    .student-details div { background:#ecf0f1; padding:10px; border-radius:4px; }
+
+    .overall-progress, .timeline {
+      max-width:900px; margin:20px auto; background:white; padding:20px;
+      border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar1 {
+      margin-top:10px; height:25px; background:#ddd; border-radius:12px;
+      overflow:hidden; cursor:pointer;
+    }
+    .progress-fill1 {
+      height:100%; background:#27ae60; text-align:center; color:white;
+      line-height:25px; font-weight:bold;
+    }
+    .click-hint { margin-top:8px; font-size:14px; color:#34495e; text-align:center; cursor:pointer; }
+
+    .timeline { position:relative; display:none; }
+    .timeline::after { content:''; position:absolute; width:6px; background-color:#2c3e50; top:0; bottom:0; left:50%; margin-left:-3px; }
+
+    .container { padding:10px 40px; position:relative; background-color:inherit; width:50%; }
+    .container.left { left:0; } .container.right { left:50%; }
+    .content { padding:20px; background-color:white; position:relative; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+
+    /* Grid styling for pages */
+    .pages {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .page-box {
+      text-align:center;
+      padding:8px;
+      border-radius:4px;
+      color:white;
+      font-weight:bold;
+    }
+    .completed { background:#2ecc71; }   /* Green */
+    .progress { background:#f39c12; }    /* Orange */
+    .pending { background:#e74c3c; }     /* Red */
+  </style>
+</head>
+<body>
+  <h1>BITUL QURAN INTERNATIONAL MADRASHA</h1>
+  <p>Founder: Haji Mansurur Rahman Khan</p>
+  <h1>হিফজ বিভাগ ট্র্যাকার</h1>
+
+  <!-- রিয়েল টাইম ঢাকা ক্লক -->
+  <div class="clock" id="clock">🕒 Dhaka Time Loading...</div>
+
+  <!-- Student Info -->
+  <div class="student-info" id="student-info">
+    <h2>শিক্ষার্থীর তথ্য</h2>
+    <div class="student-details">
+      <div><strong>নাম:</strong> <span id="student-name"></span></div>
+      <div><strong>আইডি:</strong> <span id="student-id"></span></div>
+      <div><strong>গ্রুপ:</strong> <span id="student-group"></span></div>
+      <div><strong>উস্তাদ:</strong> <span id="student-ustad"></span></div>
+    </div>
+  </div>
+
+  <!-- Overall Progress -->
+  <div class="overall-progress">
+    <h2>Overall Progress</h2>
+    <div id="overall-status"></div>
+    <div class="progress-bar1" onclick="showTimeline('timeline')">
+      <div id="overall-bar1" class="progress-fill1">0%</div>
+    </div>
+    <div class="click-hint" onclick="showTimeline('timeline')">📌 বিস্তারিত তথ্য দেখতে এখানে ক্লিক করুন</div>
+  </div>
+
+  <!-- Timeline (hidden initially) -->
+  <div id="timeline" class="timeline"></div>
+
+  <script>
+    // Show timeline on click
+    function showTimeline(id){
+      document.getElementById(id).style.display = "block";
+    }
+
+    // Real-time Dhaka clock with ISO 8601 format
+    function updateClock(){
+      const now = new Date();
+      const dhakaFormatter = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Dhaka',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      const parts = dhakaFormatter.formatToParts(now);
+      const lookup = {};
+      parts.forEach(p => lookup[p.type] = p.value);
+      const isoString = `${lookup.year}-${lookup.month}-${lookup.day}T${lookup.hour}:${lookup.minute}:${lookup.second}+06:00`;
+      document.getElementById("clock").textContent = "🕒 Dhaka Time: " + isoString;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Timeline JSON fetch (students.json)
+    fetch("mj.json")
+      .then(response => response.json())
+      .then(data => {
+        const students = data["Hifz-Tracker"]["Students"];
+        const timeline = document.getElementById("timeline");
+        let side = "left";
+
+        // ধরুন প্রথম শিক্ষার্থীর তথ্য দেখাচ্ছি
+        const firstStudentKey = Object.keys(students)[0];
+        const firstStudent = students[firstStudentKey];
+
+        // Student Info section update
+        document.getElementById("student-name").textContent = firstStudentKey;
+        document.getElementById("student-id").textContent = firstStudent.id || "N/A";
+        document.getElementById("student-group").textContent = firstStudent.group || "N/A";
+        document.getElementById("student-ustad").textContent = firstStudent.ustad || "N/A";
+
+        // Build para blocks (without student name in title)
+        firstStudent.quran.forEach(para => {
+          const container = document.createElement("div");
+          container.className = "container " + side;
+          side = (side === "left") ? "right" : "left";
+
+          const content = document.createElement("div");
+          content.className = "content";
+
+          const paraTitle = document.createElement("h2");
+          paraTitle.textContent = `Para ${para.para_number}`;
+          content.appendChild(paraTitle);
+
+          const pageList = document.createElement("div");
+          pageList.className = "pages";
+
+          para.pages.forEach(page => {
+            const pageDiv = document.createElement("div");
+            pageDiv.className = "page-box " +
+              (page.status === "completed" ? "completed" :
+               page.status === "in progress" ? "progress" : "pending");
+            pageDiv.textContent = page.page_number;
+            pageList.appendChild(pageDiv);
+          });
+
+          content.appendChild(pageList);
+          container.appendChild(content);
+          timeline.appendChild(container);
+        });
+
+        // Calculate overall stats
+        let allPages = [];
+        firstStudent.quran.forEach(para => {
+          para.pages.forEach(page => allPages.push(page.status));
+        });
+
+        let total = allPages.length;
+        let completed = allPages.filter(s => s === "completed").length;
+        let inProgress = allPages.filter(s => s === "in progress").length;
+        let pending = allPages.filter(s => s === "pending").length;
+        let percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+        document.getElementById("overall-status").textContent =
+          `✅ Completed: ${completed} | 🔄 In Progress: ${inProgress} | ⏳ Pending: ${pending}`;
+        const overallBar1 = document.getElementById("overall-bar1");
+        overallBar1.style.width = percent + "%";
+        overallBar1.textContent = percent + "%";
+      })
+      .catch(err => {
+        console.error("Failed to load students.json", err);
+      });
+  </script>
+  </body>
+</html>
